@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>API Call</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+	  // Document Loaded
+	  document.addEventListener('DOMContentLoaded',function(){
+
+	  	// On click button 1
+	    document.getElementById('getMessage1').onclick=function(){
+
+	      // XML Http Request
+	      req = new XMLHttpRequest();
+	      req.open('get','https://jsonplaceholder.typicode.com/todos/1',true);
+	      req.send();
+	      req.onload = function(){
+	        var data = JSON.parse(req.responseText);
+	        document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(data);
+		  }
+	      //-------------------
+	    };
+
+	  	// On click button 2
+	    document.getElementById('getMessage2').onclick=function(){
+	      // Fetch
+	      fetch('https://jsonplaceholder.typicode.com/todos/1')
+	      .then(function(response){
+	        return response.json();
+	      })
+	      .then(function(data){
+	        document.getElementsByClassName('api')[0].innerHTML = JSON.stringify(data);
+	      });
+	      //-------------------
+	    };
+
+	  });
+	</script>
+
+	<!-- Local styles -->
+	<style>
+		  body {
+		    text-align: center;
+		    font-family: "Helvetica", sans-serif;
+		  }
+
+		  .container{
+		  	min-width: 320px;
+		  	max-width: 735px;
+		  	margin: 0 auto;
+		  }
+
+		  h1 {
+		    font-size: 2em;
+		    font-weight: bold;
+		  }
+
+		  .box {
+		    border-radius: 5px;
+		    background-color: #eee;
+		    padding: 20px 5px;
+		  }
+
+		  button {
+		    color: white;
+		    background-color: #4791d0;
+		    border-radius: 5px;
+		    border: 1px solid #4791d0;
+		    padding: 5px 10px 8px 10px;
+		  }
+
+		  button:hover {
+		    background-color: #0F5897;
+		    border: 1px solid #0F5897;
+		  }
+	</style>
+	<!-- end local styles -->
+</head>
+<body>
+	<h1>API Call</h1>
+	<div class="container">
+		<!-- XMLHttpRequest() response -->
+		<p class="message box">
+		  XMLHttpRequest() - method
+		</p>
+
+		<p>
+		  <button id="getMessage1">
+		    Get Message 1
+		  </button>
+		</p>
+
+		<!-- fetch() response-->
+		<p class="api box">
+		  fetch() - method
+		</p>
+
+		<p>
+		  <button id="getMessage2">
+		    Get Message 2
+		  </button>
+		</p>
+
+	</div>
+</body>
+</html>
