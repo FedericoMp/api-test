@@ -13,11 +13,23 @@
 
 	      // XML Http Request
 	      req = new XMLHttpRequest();
-	      req.open('get','https://jsonplaceholder.typicode.com/todos/1',true);
+	      req.open('get','https://jsonplaceholder.typicode.com/todos',true);
 	      req.send();
 	      req.onload = function(){
 	        var data = JSON.parse(req.responseText);
-	        document.getElementsByClassName('message')[0].innerHTML = JSON.stringify(data);
+	        var html = "";
+        	data = data.slice(0,3);
+	        data.forEach(function(val){
+	        	var keys = Object.keys(val);
+	        	html += "<div class = 'cat'>";
+	        	keys.forEach(function(key){
+	        		html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
+	        		console.log(key);
+	        		console.log(val[key]);
+	        	});
+	        	html += "</div><br>";
+	        });
+    	  	document.getElementById('dataDislplay1').innerHTML = html;
 		  }
 	      //-------------------
 	    };
@@ -30,7 +42,8 @@
 	        return response.json();
 	      })
 	      .then(function(data){
-	        document.getElementsByClassName('api')[0].innerHTML = JSON.stringify(data);
+	        // document.getElementsByClassName('api')[0].innerHTML = JSON.stringify(data);
+	        document.getElementById('dataDislplay2').innerHTML = JSON.stringify(data);
 	      });
 	      //-------------------
 	    };
@@ -41,25 +54,64 @@
 	<!-- Local styles -->
 	<style>
 		  body {
-		    text-align: center;
 		    font-family: "Helvetica", sans-serif;
 		  }
 
-		  .container{
+		  .main-container{
 		  	min-width: 320px;
 		  	max-width: 735px;
 		  	margin: 0 auto;
+		    display: flex;
+		    flex-direction: column;
+			justify-content: center;
 		  }
 
-		  h1 {
+		  header{
+		  	display: flex;
+		  	flex-direction: row;
+			flex-grow:1;
+			justify-content: center;
+		  }
+
+		  .headline {
 		    font-size: 2em;
 		    font-weight: bold;
 		  }
 
-		  .box {
-		    border-radius: 5px;
+		  main, .container{
+			display: flex;
+		  	flex-direction: column;
+		  }
+
+		  .container{
+		  	align-items: center;
+		  	border-radius: 5px;
 		    background-color: #eee;
 		    padding: 20px 5px;
+		    margin-bottom: 20px;
+		  }
+
+		  .box {
+			display: flex;
+		  	flex-direction: row;
+		  }
+
+		  #getMessage1, #getMessage2{
+		  	display: flex;
+		  	flex-direction: row;
+		  }
+
+		  #dataDislplay1,#dataDislplay2{
+		  	display: flex;
+		  }
+
+		  #dataDislplay2{
+		  	padding-top: 20px;
+		  	text-align: center;
+		  }
+
+		  .cat{
+		  	padding: 20px 10px;
 		  }
 
 		  button {
@@ -78,30 +130,37 @@
 	<!-- end local styles -->
 </head>
 <body>
-	<h1>API Call</h1>
-	<div class="container">
-		<!-- XMLHttpRequest() response -->
-		<p class="message box">
-		  XMLHttpRequest() - method
-		</p>
+	<div class="main-container">
+		<header>
+			<h1 class="headline">API Call</h1>
+		</header>
+		<main>
+			<div class="container">
+				<!-- XMLHttpRequest() response -->
+				<p class="message box">
+				  XMLHttpRequest() - method
+				</p>
 
-		<p>
-		  <button id="getMessage1">
-		    Get Message 1
-		  </button>
-		</p>
+			    <button id="getMessage1">
+			      Get Message 1
+			    </button>
 
-		<!-- fetch() response-->
-		<p class="api box">
-		  fetch() - method
-		</p>
+				<div id="dataDislplay1"></div>
+			</div>
+			
+			<div class="container">
+				<!-- fetch() response-->
+				<p class="api box">
+				  fetch() - method
+				</p>
 
-		<p>
-		  <button id="getMessage2">
-		    Get Message 2
-		  </button>
-		</p>
+				<button id="getMessage2">
+				  Get Message 2
+				</button>
 
+				<div id="dataDislplay2"></div>
+			</div>
+		</main>
 	</div>
 </body>
 </html>
